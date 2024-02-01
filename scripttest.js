@@ -181,7 +181,7 @@ function provideVowelClue() {
 }
 
 function gameOver() {
-    alert('Game Over!');
+    alert('Game Over! Your final score is : ' + score);
     resetGame();
 }
 
