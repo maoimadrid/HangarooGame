@@ -1,0 +1,137 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&family=Zen+Maru+Gothic:wght@700&display=swap');
+
+body {
+    font-family: Poppins;
+    background: #41436a;
+    font-size: 20px;
+}
+
+#container {
+    text-align: center;
+    margin-top: 120px;
+
+}
+
+
+#mode, #question, #points, #clues, #mode, #incorrectGuesses {
+    margin-top: 20px;
+    color: #f0f0f0;
+}
+
+#points, #clues, #incorrectGuesses {
+    font-size: 17px;
+}
+
+#clueBtn {
+    margin-top: 10px;
+}
+
+#word {
+    margin-top: 20px;
+}
+
+.box {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    border: transparent;
+    background: #f0f0f0;
+    border-radius: 5px;
+    padding-top: 7px;
+    margin: 0 5px;
+    align-content: center;
+    text-align: center;
+    white-space: nowrap; /* Prevent text from wrapping */
+    overflow: hidden; /* Hide overflow text */
+}
+
+footer{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: auto;
+    width: 100vw;
+    padding-top: 40px;
+}
+
+.footer-content{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+.members{
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1rem 0 3rem 0;
+}
+
+.members li{
+    margin: 0 10px;
+    color: #f0f0f0;
+    font-size: 10px;
+}
+/* Update styles for the alphabet buttons */
+#alphabet {
+    text-align: center; /* Align content at the center */
+    margin-top: 20px;
+}
+
+#alphabet .row {
+    display: flex; /* Use flexbox for rows */
+    justify-content: center; /* Center align items in rows */
+}
+
+#alphabet button {
+    background-color: #fe9677;
+    color: #f0f0f0;
+    font-size: 20px;
+    font-family: Poppins;
+    width: 60px;
+    height: 60px;
+    padding: 10px 15px;
+    margin: 5px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+#alphabet button:hover {
+    transform: translateY(-5px);
+    background-color: #FF7E56;
+    
+}
+/* CSS for clue and restart buttons */
+#clueBtn, #restartBtn {
+    background-color: #984063;
+    font-size: 19px;
+    color: #fff;
+    padding: 10px 20px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#clueBtn:hover, #restartBtn:hover {
+    background-color: #f64668;
+}
+
+/* CSS for highlighting clues */
+#alphabet button.clue-highlight {
+    background-color: #F98749; /* color for highlighted clues */
+    color: #fff;
+}
+
+
+#alphabet button.used {
+    background-color: #BF7B66; /*for used letters */
+    color: #fff; /* White text color for used letters */
+}
