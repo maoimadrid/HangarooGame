@@ -180,6 +180,11 @@ function provideVowelClue() {
     });
 }
 
+function gameOver() {
+    alert('Game Over!');
+    resetGame();
+}
+
 function resetGame() {
     score = 0;
     cluesLeft = 3;
