@@ -1,3 +1,6 @@
+let questionsAnswered = 0;
+let currentDifficultyIndex = 0; 
+
 const questions = {
     easy: [
         { question: "Who was the Ancient Greek God of the Sun? ", answer: "Apollo" },
@@ -37,6 +40,8 @@ const questions = {
     ]
 };
 
+const gameModes = ['easy', 'medium', 'difficult'];
+let gameMode = gameModes[currentDifficultyIndex];
 let askedQuestions = {
     easy: [],
     medium: [],
@@ -49,22 +54,49 @@ let currentWord = null;
 let score = 0;
 let cluesLeft = 3;
 let incorrectGuesses = 0;
-let gameMode = 'easy';
 
 function displayQuestion() {
-    // Your existing logic to set up the current question
-    currentQuestions = questions[gameMode].filter(question => !askedQuestions[gameMode].includes(question));
+    // Filter out questions that have already been asked in the current game mode
+    const currentQuestions = questions[gameMode].filter(question => !askedQuestions[gameMode].includes(question));
+    
+    // Check if all questions in the current game mode have been asked
     if (currentQuestions.length === 0) {
-        // Reset asked questions if all questions have been asked in this mode
+        // Reset asked questions for the current game mode
         askedQuestions[gameMode] = [];
-        currentQuestions = questions[gameMode];
+        
+        // If all questions have been asked, switch to the next difficulty level
+        if (gameMode === 'easy') {
+            gameMode = 'medium';
+        } else if (gameMode === 'medium') {
+            gameMode = 'difficult';
+        } else {
+            // Handle case where all questions in all difficulty levels have been asked
+            alert('Congratulations! You have completed all difficulty levels.');
+            return;
+        }
+        
+        // Update displayed game mode
+        document.getElementById('gameMode').textContent = gameMode.charAt(0).toUpperCase() + gameMode.slice(1);
+        
+        // Get questions for the new game mode
+        displayQuestion();
+        return;
     }
-    currentQuestion = currentQuestions[Math.floor(Math.random() * currentQuestions.length)];
+
+    // Randomly select a question from the remaining questions
+    const currentQuestion = currentQuestions[Math.floor(Math.random() * currentQuestions.length)];
+    
+    // Add the selected question to the list of asked questions
     askedQuestions[gameMode].push(currentQuestion);
+    
+    // Display the question
     document.getElementById('question').textContent = currentQuestion.question;
-    document.getElementById('gameMode').textContent = gameMode.charAt(0).toUpperCase() + gameMode.slice(1);
+    
+    // Display the word to guess
     currentWord = currentQuestion.answer.toUpperCase();
     displayWord();
+    
+    // Reset alphabet buttons
     displayAlphabet();
 }
 
@@ -115,16 +147,21 @@ function handleGuess(letter) {
         });
 
         if (Array.from(boxes).every(box => box.textContent !== '')) {
-            score += 10;
+            score += 10; // Increment score
             document.getElementById('score').textContent = score;
-            if (gameMode === 'easy' && score >= 100) {
-                gameMode = 'medium';
-                document.getElementById('gameMode').textContent = 'Medium';
-            } else if (gameMode === 'medium' && score >= 200) {
-                gameMode = 'difficult';
-                document.getElementById('gameMode').textContent = 'Difficult';
+            if (questionsAnswered === 10) {
+                currentDifficultyIndex++;
+                if (currentDifficultyIndex < gameModes.length) {
+                    gameMode = gameModes[currentDifficultyIndex];
+                    questionsAnswered = 0; // Reset questions answered counter
+                    document.getElementById('gameMode').textContent = gameMode.charAt(0).toUpperCase() + gameMode.slice(1);
+                } else {
+                    alert('Congratulations! You have completed all difficulty levels. You have a final score of: ' + score);
+                    resetGame();
+                }
+            } else {
+                displayQuestion();
             }
-            displayQuestion(); // Reset alphabet buttons here
         }
     } else {
         incorrectGuesses++;
@@ -185,11 +222,6 @@ function gameOver() {
     resetGame();
 }
 
-function checkGameOver() {
-    if (questions.length === 0) {
-        alert('Congratulations! You have finished all questions. Your final score is: ' + score);
-    }
-}
 
 function resetGame() {
     score = 0;
