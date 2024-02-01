@@ -185,6 +185,12 @@ function gameOver() {
     resetGame();
 }
 
+function checkGameOver() {
+    if (questions.length === 0) {
+        alert('Congratulations! You have finished all questions. Your final score is: ' + score);
+    }
+}
+
 function resetGame() {
     score = 0;
     cluesLeft = 3;
