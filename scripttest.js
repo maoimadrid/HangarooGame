@@ -30,7 +30,7 @@ const questions = {
         { question: "Which country has launched a national AI strategy to become a global leader in the field?", answer: "China" },
         { question: "Which company has developed a virtual assistant that can understand and respond to natural language?", answer: "Amazon" },
         { question: "What programming language is commonly used for developing mobile applications on the iOS platform?", answer: "Swift" },
-        { question: "WWhat does IDE stand for in software development?", answer: "Integrated Development Environment" },
+        { question: "What does IDE stand for in software development?", answer: "Integrated Development Environment" },
         { question: "What is the name of the first computer bug?", answer: "Moth" },
         { question: "In networking, what does VPN stand for?", answer: "Virtual Private Network" },
         { question: "What was the first popular web browser, released in 1993?", answer: "Mosaic" },
