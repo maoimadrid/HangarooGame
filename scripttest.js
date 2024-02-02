@@ -72,7 +72,7 @@ function displayQuestion() {
         } else {
             // Handle case where all questions in all difficulty levels have been asked
             alert('Congratulations! You have completed all difficulty levels.');
-            return;
+            resetGame();
         }
         
         // Update displayed game mode
