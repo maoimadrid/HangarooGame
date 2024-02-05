@@ -4,41 +4,133 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hangaroo</title>
-    <link rel="stylesheet" href="styletest.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins&family=Zen+Maru+Gothic:wght@700&display=swap');
+
+        body {
+            font-family: Poppins;
+            display: flex;
+            align-items: center;
+            background: #41436a;
+            justify-content: center;
+            height: 80vh;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+            font-family: Poppins;
+            font-size: 50px;
+            color: #fe9677;
+        }
+        
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            width: 100px;
+            text-align: center;
+            text-decoration: none;
+            background-color: #FF7E56;
+            color: white;
+            border: 2px solid #ffffff;
+            border-radius: 30px;
+            cursor: pointer;
+            margin: 10px;
+        }
+
+        .button1 {
+            display: inline-block;
+            padding: 15px 30px;
+            font-size: 16px;
+            width: 150px;
+            text-align: center;
+            text-decoration: none;
+            background-color: #FF7E56;
+            color: white;
+            border: 2px solid #ffffff;
+            border-radius: 30px;
+            cursor: pointer;
+            margin: 10px;
+        }
+
+        .button:hover, .button1:hover{
+            background-color: #4dac4d; 
+        }
+
+         
+
+            #rulesPopup {
+          display: none;
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+           width: 360px;
+            padding: 20px;
+           background-color: #fff;
+         border: 2.5px solid #000;
+         border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+          z-index: 2;
+         }
+
+      #rulesPopup h2 {
+     font-size: 30px;
+     margin-bottom: 10px;
+     }
+
+      #closeBtn {
+     cursor: pointer;
+     position: absolute;
+     top: -15px;
+     right: 5px;
+     font-size: 50px;
+     } 
+
+        @media (max-width: 600px) {
+       .container {
+        font-size: 30px;
+        }
+
+        .button {
+        font-size: 14px;
+        }
+        }
+
+    </style>
 </head>
 <body>
-    <div id="container">
-        <div><h1 id="noclues"></h1></div> <!-- Miguel, Earl -->
-        <div id="mode">Mode: <span id="gameMode">Easy</span></div>
-        <div id="question"></div>
-        <div id="word"></div>
-        <div id="points">Points: <span id="score">0</span></div>
-        <div id="clues">Clues Left: <span id="cluesLeft">3</span></div>
-        <div id="incorrectGuesses">Incorrect Guesses: <span id="incorrectCount">0</span></div>
-        <div id="alphabet">
-            <div class="row">
-                <!-- Add buttons for the first row of alphabet -->
-            </div>
-            <div class="row">
-                <!-- Add buttons for the second row of alphabet -->
-            </div>
-            <div class="row">
-                <!-- Add buttons for the third row of alphabet -->
-            </div>
-        </div>
-        <button id="clueBtn">Clue</button>
-        <button id="restartBtn">Restart</button>
+    <div class="container">
+    <h1>Hangaroo</h1>
+    <a href="game.html" class="button">Start Game</a>
+    <button id="ruleBtn" class="button1">Rules</button>
     </div>
-    <script src="scripttest.js"></script>
-    <footer>
-        <div class="footer-content">
-            <ul class="members">
-                <li>Custodio, Joey</li>
-                <li>Dig, Franz</li>
-                <li>Lazaro, Llorenz</li>
-                <li>Madrid, Maoi</li>
-                <li>Miguel, Earl</li>
-        </div>
-    </footer>
+		<!-- Add the rules pop-up -->
+<div id="rulesPopup">
+    <span id="closeBtn">&times;</span>
+    <h2>Rules</h2>
+    <p>1. Guess the word correctly to earn 10 points.</p>
+    <p>2. Each incorrect guess will decrease your lives by 1.</p>
+	<p>3. You have 3 clues and each clue costs 25 points each. </p>
+    <p>4. Use clues wisely to reveal consonants or vowels.</p>
+    <p>5. Answer 10 questions to advance to the next difficulty level.</p>
+	<p>6. 3 INCORRECT guesses = GAME OVER!</p>
+</div>
+
+<div class="container">
+</div>
+
+<script>
+    document.getElementById('ruleBtn').addEventListener('click', function() {
+        document.getElementById('rulesPopup').style.display = 'block';
+    });
+
+    document.getElementById('closeBtn').addEventListener('click', function() {
+        document.getElementById('rulesPopup').style.display = 'none';
+    });
+</script>
+
 </body>
 </html>
