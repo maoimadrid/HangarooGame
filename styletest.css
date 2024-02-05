@@ -9,17 +9,14 @@ body {
 #container {
     text-align: center;
     margin-top: 120px;
+    margin-bottom: 120px;
 
 }
-
-
-#mode, #question, #points, #clues, #mode, #incorrectGuesses {
+#question{
+	font-size: 35px;
+    position: relative;
     margin-top: 20px;
     color: #f0f0f0;
-}
-
-#points, #clues, #incorrectGuesses {
-    font-size: 17px;
 }
 
 #clueBtn {
@@ -28,31 +25,71 @@ body {
 
 #word {
     margin-top: 20px;
+    color: #41436a;
+}
+
+#stats-row {
+    display: flex;
+    justify-content: space-around;
+    align-items: center; /* Center items vertically */
+    margin-top: 10px; /* Adjust the top margin as needed */
+    margin-bottom: 10px; /* Adjust the bottom margin as needed */
+	margin: 0 500px;
+}
+
+.stat {
+    font-size: 18px;
+    color: #f0f0f0;
+	margin-left: -20px;
+    margin-top: 10px;
+	
+     /* Adjust the margin between stats */
+}
+
+#hearts {
+    font-size: 20px;
 }
 
 .box {
     display: inline-block;
-    width: 50px;
-    height: 50px;
-    border: transparent;
+    width: 80px;
+    height: 70px;
+    border: 4px solid #FE9677;
     background: #f0f0f0;
-    border-radius: 5px;
+    border-radius: 12px;
     padding-top: 7px;
-    margin: 0 5px;
+    margin: 0 10px;
     align-content: center;
     text-align: center;
     white-space: nowrap; /* Prevent text from wrapping */
     overflow: hidden; /* Hide overflow text */
+	line-height: 60px;
+	font-size: 40px;
 }
 
-footer{
-    position: absolute;
+footer {
+    position: fixed; /* Change to relative position */
     bottom: 0;
-    left: 0;
-    right: 0;
-    height: auto;
-    width: 100vw;
+    width: 100%; /* Set width to 100% */
     padding-top: 40px;
+    height: 50px;
+    margin-top: 100px;
+    font-size: 5px;
+}
+
+.footer-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    color: #fff; 
+}
+
+
+.members li {
+    margin: 0 10px;
+    font-size: 5px
 }
 
 .footer-content{
@@ -71,74 +108,210 @@ footer{
     margin: 1rem 0 3rem 0;
 }
 
-.members li{
-    margin: 0 10px;
-    color: #f0f0f0;
-    font-size: 10px;
-}
 /* Update styles for the alphabet buttons */
 #alphabet {
-    text-align: center; /* Align content at the center */
+    text-align: center;
     margin-top: 20px;
 }
 
 #alphabet .row {
-    display: flex; /* Use flexbox for rows */
-    justify-content: center; /* Center align items in rows */
+    display: flex;
+    justify-content: center;
 }
 
 #alphabet button {
-    background-color: #fe9677;
+    background: linear-gradient(45deg, #ff8c6a, #fe9677); /* Gradient background */
     color: #f0f0f0;
-    font-size: 20px;
+    font-size: 22px;
     font-family: Poppins;
-    width: 60px;
-    height: 60px;
-    padding: 10px 15px;
-    margin: 5px;
+    width: 120px;
+    height: 120px;
+    padding: 10px 10px;
+    margin: 10px;
+    margin-bottom: 10px;
     border: none;
     cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s;
+    border-radius: 10px; /* Increased border-radius for a key cap effect */
+    transition: background 0.3s, transform 0.3s, box-shadow 0.3s; /* Added background transition */
+    box-shadow:
+        0px 5px 10px rgba(0, 0, 0, 0.2),
+        0px 10px 20px rgba(0, 0, 0, 0.1),
+        inset 0px -2px 5px rgba(255, 255, 255, 0.1); /* Adjusted box shadows for a more key cap-like effect */
+    border: 2px solid #e5774e; /* Added border for a key cap appearance */
 }
 
 #alphabet button:hover {
     transform: translateY(-5px);
     background-color: #FF7E56;
-    
+    box-shadow: 
+        0px 8px 20px rgba(0, 0, 0, 0.5),
+        0px 15px 25px rgba(0, 0, 0, 0.4),
+        0px 20px 30px rgba(0, 0, 0, 0.3); /* Adjusted box shadows for hover effect */
 }
+
 /* CSS for clue and restart buttons */
-#clueBtn, #restartBtn {
+#restartBtn {
+    position: relative;
     background-color: #984063;
     font-size: 19px;
     color: #fff;
-    padding: 10px 20px;
-    margin-top: 20px;
+    padding: 20px 50px;
+    margin-top: 50px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
 }
 
-#clueBtn:hover, #restartBtn:hover {
+#clueBtn {
+    position: relative;
+	background-color: #00BF63;
+    font-size: 19px;
+    color: #fff;
+    padding: 20px 30px;
+    margin-top: 70px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#restartBtn:hover {
     background-color: #f64668;
+}
+
+#clueBtn:hover {
+    background-color: #049650;
 }
 
 /* CSS for highlighting clues */
 #alphabet button.clue-highlight {
-    background-color: #F98749; /* color for highlighted clues */
+    background: linear-gradient(45deg, #da6220, #ff7e56); /* Updated gradient for highlighted clues */
     color: #fff;
+    box-shadow:
+        0px 10px 20px rgba(0, 0, 0, 0.3),
+        0px 15px 25px rgba(0, 0, 0, 0.2),
+        inset 0px -4px 10px rgba(255, 255, 255, 0.1); /* Adjusted box shadows for highlighted clues */
+}
+
+#alphabet button:disabled {
+    background-color: #AC8579; /* Change color for disabled buttons */
+    cursor: not-allowed; /* Change cursor for disabled buttons */
+    opacity: 0.7; /* Reduce opacity for disabled buttons */
+}
+
+#alphabet button:disabled:hover {
+    transform: none; /* Remove hover effect for disabled buttons */
+    background-color: #AC8579; /* Keep background color same on hover for disabled buttons */
 }
 
 
-#alphabet button.used {
-    background-color: #BF7B66; /*for used letters */
-    color: #fff; /* White text color for used letters */
+#ruleBtn {
+    position: absolute;
+    top: 30px;
+    right: 60px;
+    padding: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    background: #FFB145; /* Updated background color to #FFB145 */
+    color: #fff; /* Text color */
+    font-size: 24px;
+    font-family: Poppins;
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+    box-shadow:
+        0px 5px 10px rgba(0, 0, 0, 0.2),
+        0px 10px 20px rgba(0, 0, 0, 0.1),
+        inset 0px -2px 5px rgba(255, 255, 255, 0.1);
+    border: 2px solid #FFB145;
 }
 
-/* Miguel, Earl  */
-#noclues {
-    font-size: 32px;
-    color: #f64668;
+#ruleBtn:hover {
+    transform: translateY(-5px);
+    background-color: #FF9633; /* Darker color on hover */
+    box-shadow: 
+        0px 8px 20px rgba(0, 0, 0, 0.5),
+        0px 15px 25px rgba(0, 0, 0, 0.4),
+        0px 20px 30px rgba(0, 0, 0, 0.3);
+}
+
+#rulesPopup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 360px;
+    padding: 20px;
+    background-color: #fff;
+    border: 2.5px solid #000;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    z-index: 2;
+}
+
+#rulesPopup h2 {
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+#closeBtn {
+    cursor: pointer;
+    position: absolute;
+    top: -15px;
+    right: 5px;
+    font-size: 50px;
+}
+
+
+
+#gameMode.green-color {
+    color: #00FF00; /* Green */
+}
+
+#gameMode.orange-color {
+    color: #FFA500; /* Orange */
+}
+
+#gameMode.red-color {
+    color: #FF0000; /* Red */
+}
+/* Add this CSS to style your pop-up */
+.popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fefefe;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    z-index: 9999;
+    color: #41436a;
+}
+
+.popup-content {
+    text-align: center;
+}
+
+.popup button {
+    padding: 10px 20px;
+    background-color: #fe9677;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.popup button:hover {
+    background-color: #FF7E56;
+}
+
+.popup button:focus {
+    outline: none;
 }
 
