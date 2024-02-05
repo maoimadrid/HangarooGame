@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hangaroo</title>
+    <link rel="stylesheet" href="styletest.css">
+    <link rel="stylesheet" href="mediacss.css">
+</head>
+<body>
+    <div id="container">
+        <button id="ruleBtn">Rules</button>
+		<!-- Add the rules pop-up -->
+<div id="rulesPopup">
+    <span id="closeBtn">&times;</span>
+    <h2>Rules</h2>
+    <p>1. Guess the word correctly to earn 10 points.</p>
+    <p>2. Each incorrect guess will decrease your lives by 1.</p>
+	<p>3. You have 3 clues and each clue costs 25 points each. </p>
+    <p>4. Use clues wisely to reveal consonants or vowels.</p>
+    <p>5. Answer 10 questions to advance to the next difficulty level.</p>
+	<p>6. 3 INCORRECT guesses = GAME OVER!</p>
+</div>
+
+        <div id="question"></div>
+        <div id="word"></div>
+        <div id="stats-row">     
+            <div class="stat">Lives: <span id="hearts">❤️❤️❤️</span></div>
+			<div class="stat">Points: <span id="score">0</span></div>
+			<div class="stat">Mode: <span id="gameMode">Easy</span></div>
+        </div>
+        <div id="alphabet">
+            <div class="row">
+                <!-- Add buttons for the first row of alphabet -->
+            </div>
+            <div class="row">
+                <!-- Add buttons for the second row of alphabet -->
+            </div>
+            <div class="row">
+                <!-- Add buttons for the third row of alphabet -->
+            </div>
+        </div>
+        <button id="clueBtn">Clues Left: <span id="cluesLeft">3</span></button>
+        <button id="restartBtn">Restart</button>
+    </div>
+    </div>
+    <!-- pop-up element -->
+    <div id="nextQuestionPopup" class="popup">
+        <div class="popup-content">
+            <p>Congratulations! You guessed the word correctly.</p>
+            <button id="nextQuestionButton">Next Question</button>
+        </div>
+    </div>
+    <!-- Add this pop-up element to your HTML -->
+    <div id="clueTypePopup" class="popup">
+        <div class="popup-content">
+            <p>Choose clues using consonants or vowels:</p>
+            <button id="consonantsButton">Consonants</button>
+            <button id="vowelsButton">Vowels</button>
+        </div>
+    </div>
+    <script src="scripttest.js"></script>
+    <footer class="footer">
+        <div class="footer-content">
+            <ul class="members">
+                <li>Custodio, Joey</li>
+                <li>Dig, Franz</li>
+                <li>Lazaro, Llorenz</li>
+                <li>Madrid, Maoi</li>
+                <li>Miguel, Earl</li>
+            </ul>
+        </div>
+    </footer>
+</body>
+</html>
