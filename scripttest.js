@@ -86,18 +86,18 @@ function displayQuestion() {
     // Randomly select a question from the remaining questions
     const currentQuestion = currentQuestions[Math.floor(Math.random() * currentQuestions.length)];
     
-    // Add the selected question to the list of asked questions
-    askedQuestions[gameMode].push(currentQuestion);
-    
-    // Display the question
-    document.getElementById('question').textContent = currentQuestion.question;
-    
+   setTimeout(() => {
     // Display the word to guess
     currentWord = currentQuestion.answer.toUpperCase();
     displayWord();
     
+    // Display the question
+    document.getElementById('question').textContent = currentQuestion.question;
+    
     // Reset alphabet buttons
     displayAlphabet();
+
+    }, 1000);
 }
 
 function displayWord() {
@@ -188,31 +188,40 @@ function provideClue() {
                 alert('Invalid input! Please choose either consonants (c) or vowels (v).');
             }
         } else {
-            alert('Not enough points to get a clue!');
+            // Miguel, Earl
+            //alert('Not enough points to get a clue!');
+            document.getElementById('noclues').textContent = 'Not enough points to get a clue!';
         }
     } else {
         alert('No clues left!');
     }
 }
 
-function provideConsonantClue() {
+function provideConsonantClue() { // Miguel,Earl
     const wordLetters = currentWord.toUpperCase().split('');
     const consonants = 'BCDFGHJKLMNPQRSTVWXYZ'.split('');
     const buttons = document.querySelectorAll('#alphabet button');
+    let consonantFound = false; // Variable to track if a consonant has been found 
+
     buttons.forEach(button => {
-        if (consonants.includes(button.textContent.toUpperCase()) && wordLetters.includes(button.textContent.toUpperCase())) {
+        if (!consonantFound && consonants.includes(button.textContent.toUpperCase()) && wordLetters.includes(button.textContent.toUpperCase())) {
             button.classList.add('clue-highlight');
+            consonantFound = true; // Set to true once a consonant is found
         }
     });
 }
 
-function provideVowelClue() {
+
+function provideVowelClue() { // Miguel,Earl
     const wordLetters = currentWord.toUpperCase().split('');
     const vowels = 'AEIOU'.split('');
     const buttons = document.querySelectorAll('#alphabet button');
+    let vowelFound = false; // Variable to track if a vowel has been found
+
     buttons.forEach(button => {
-        if (vowels.includes(button.textContent.toUpperCase()) && wordLetters.includes(button.textContent.toUpperCase())) {
+        if (!vowelFound && vowels.includes(button.textContent.toUpperCase()) && wordLetters.includes(button.textContent.toUpperCase())) {
             button.classList.add('clue-highlight');
+            vowelFound = true; // Set to true once a vowel is found
         }
     });
 }
