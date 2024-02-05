@@ -73,6 +73,7 @@ function displayQuestion() {
             // Handle case where all questions in all difficulty levels have been asked
             alert('Congratulations! You have completed all difficulty levels.');
             resetGame();
+            return; // Exit the function to avoid further execution
         }
         
         // Update displayed game mode
@@ -86,20 +87,21 @@ function displayQuestion() {
     // Randomly select a question from the remaining questions
     const currentQuestion = currentQuestions[Math.floor(Math.random() * currentQuestions.length)];
     
-   setTimeout(() => {
-    // Display the word to guess
-    currentWord = currentQuestion.answer.toUpperCase();
-    displayWord();
+    // Mark the current question as asked
+    askedQuestions[gameMode].push(currentQuestion);
     
-    // Display the question
-    document.getElementById('question').textContent = currentQuestion.question;
-    
-    // Reset alphabet buttons
-    displayAlphabet();
-
+    setTimeout(() => {
+        // Display the word to guess
+        currentWord = currentQuestion.answer.toUpperCase();
+        displayWord();
+        
+        // Display the question
+        document.getElementById('question').textContent = currentQuestion.question;
+        
+        // Reset alphabet buttons
+        displayAlphabet();
     }, 1000);
 }
-
 function displayWord() {
     const wordDiv = document.getElementById('word');
     wordDiv.innerHTML = '';
@@ -149,7 +151,10 @@ function handleGuess(letter) {
         if (Array.from(boxes).every(box => box.textContent !== '')) {
             score += 10; // Increment score
             document.getElementById('score').textContent = score;
-            if (questionsAnswered === 10) {
+            questionsAnswered++;
+
+            // Check if all questions in the current difficulty level are answered
+            if (questionsAnswered === questions[gameMode].length) {
                 currentDifficultyIndex++;
                 if (currentDifficultyIndex < gameModes.length) {
                     gameMode = gameModes[currentDifficultyIndex];
@@ -171,6 +176,7 @@ function handleGuess(letter) {
         }
     }
 }
+
 
 function provideClue() {
     if (cluesLeft > 0) {
