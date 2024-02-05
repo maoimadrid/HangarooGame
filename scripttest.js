@@ -55,53 +55,66 @@ let score = 0;
 let cluesLeft = 3;
 let incorrectGuesses = 0;
 
+
 function displayQuestion() {
     // Filter out questions that have already been asked in the current game mode
     const currentQuestions = questions[gameMode].filter(question => !askedQuestions[gameMode].includes(question));
-    
+
     // Check if all questions in the current game mode have been asked
     if (currentQuestions.length === 0) {
         // Reset asked questions for the current game mode
         askedQuestions[gameMode] = [];
-        
-        // If all questions have been asked, switch to the next difficulty level
-        if (gameMode === 'easy') {
-            gameMode = 'medium';
-        } else if (gameMode === 'medium') {
-            gameMode = 'difficult';
+
+        // If all questions have been asked in the current difficulty level and there are remaining difficulty levels,
+        // switch to the next difficulty level
+        if (gameMode === 'easy' && askedQuestions['easy'].length === questions['easy'].length) {
+            if (gameModes[currentDifficultyIndex + 1]) {
+                currentDifficultyIndex++;
+                gameMode = gameModes[currentDifficultyIndex];
+
+                // Update displayed game mode
+                document.getElementById('gameMode').textContent = gameMode.charAt(0).toUpperCase() + gameMode.slice(1);
+
+                // Reset questions answered counter
+                questionsAnswered = 0;
+            } else {
+                // Handle case where all questions in all difficulty levels have been asked
+                alert('Congratulations! You have completed all difficulty levels.');
+                resetGame();
+                return;
+            }
+        } else if (gameModes[currentDifficultyIndex + 1]) {
+            currentDifficultyIndex++;
+            gameMode = gameModes[currentDifficultyIndex];
+
+            // Update displayed game mode
+            document.getElementById('gameMode').textContent = gameMode.charAt(0).toUpperCase() + gameMode.slice(1);
         } else {
             // Handle case where all questions in all difficulty levels have been asked
             alert('Congratulations! You have completed all difficulty levels.');
             resetGame();
-            return; // Exit the function to avoid further execution
+            return;
         }
-        
-        // Update displayed game mode
-        document.getElementById('gameMode').textContent = gameMode.charAt(0).toUpperCase() + gameMode.slice(1);
-        
-        // Get questions for the new game mode
-        displayQuestion();
-        return;
     }
 
     // Randomly select a question from the remaining questions
     const currentQuestion = currentQuestions[Math.floor(Math.random() * currentQuestions.length)];
-    
-    // Mark the current question as asked
+
+    // Add the selected question to the list of asked questions
     askedQuestions[gameMode].push(currentQuestion);
-    
-    setTimeout(() => {
-        // Display the word to guess
-        currentWord = currentQuestion.answer.toUpperCase();
-        displayWord();
-        
-        // Display the question
-        document.getElementById('question').textContent = currentQuestion.question;
-        
-        // Reset alphabet buttons
-        displayAlphabet();
-    }, 1000);
+
+    // Display the question
+    document.getElementById('question').textContent = currentQuestion.question;
+
+    // Display the word to guess
+    currentWord = currentQuestion.answer.toUpperCase();
+    displayWord();
+
+    // Reset alphabet buttons
+    displayAlphabet();
 }
+
+
 function displayWord() {
     const wordDiv = document.getElementById('word');
     wordDiv.innerHTML = '';
@@ -115,7 +128,7 @@ function displayWord() {
     }
 }
 
-function displayAlphabet() {
+function displayAlphabet() { //Displays all the alphabets
     const alphabet = 'abcdefghijklmnopqrstuvwxyz'.toUpperCase().split('');
     const alphabetDiv = document.getElementById('alphabet');
     alphabetDiv.innerHTML = '';
@@ -129,7 +142,10 @@ function displayAlphabet() {
         for (let j = i * lettersPerRow; j < (i + 1) * lettersPerRow && j < alphabet.length; j++) {
             const button = document.createElement('button');
             button.textContent = alphabet[j];
-            button.addEventListener('click', () => handleGuess(alphabet[j]));
+            button.addEventListener('click', () => {
+                handleGuess(alphabet[j]);
+                button.disabled = true; // Disable the button after it's clicked
+            });
             row.appendChild(button);
         }
         alphabetDiv.appendChild(row);
@@ -150,14 +166,14 @@ function handleGuess(letter) {
 
         if (Array.from(boxes).every(box => box.textContent !== '')) {
             score += 10; // Increment score
+            questionsAnswered++; // Increment the number of questions answered
             document.getElementById('score').textContent = score;
-            questionsAnswered++;
 
-            // Check if all questions in the current difficulty level are answered
-            if (questionsAnswered === questions[gameMode].length) {
+            if (questionsAnswered === 10) {
                 currentDifficultyIndex++;
                 if (currentDifficultyIndex < gameModes.length) {
                     gameMode = gameModes[currentDifficultyIndex];
+                    displayNextQuestionPopup(); // Display the next question pop-up
                     questionsAnswered = 0; // Reset questions answered counter
                     document.getElementById('gameMode').textContent = gameMode.charAt(0).toUpperCase() + gameMode.slice(1);
                 } else {
@@ -165,12 +181,12 @@ function handleGuess(letter) {
                     resetGame();
                 }
             } else {
-                displayQuestion();
+                displayNextQuestionPopup(); // Display the next question pop-up
             }
         }
     } else {
         incorrectGuesses++;
-        document.getElementById('incorrectCount').textContent = incorrectGuesses;
+        updateHearts();
         if (incorrectGuesses === 3) {
             gameOver();
         }
@@ -178,6 +194,51 @@ function handleGuess(letter) {
 }
 
 
+
+// Function to display the pop-up for the next question
+function displayNextQuestionPopup() {
+    const nextQuestionPopup = document.getElementById('nextQuestionPopup');
+    nextQuestionPopup.style.display = 'block';
+}
+
+// Function to hide the pop-up for the next question
+function hideNextQuestionPopup() {
+    const nextQuestionPopup = document.getElementById('nextQuestionPopup');
+    nextQuestionPopup.style.display = 'none';
+}
+
+// Event listener for the button to display the next question
+document.getElementById('nextQuestionButton').addEventListener('click', function() {
+    hideNextQuestionPopup(); // Hide the pop-up when the button is clicked
+    displayQuestion(); // Display the next question
+});
+
+
+function updateHearts() {
+    const heartsSpan = document.getElementById('hearts');
+    heartsSpan.textContent = '❤️'.repeat(Math.max(0, 3 - incorrectGuesses));
+
+    if (incorrectGuesses === 3) {
+        gameOver();
+    }
+}
+
+function disableAlphabetButtons() {
+    const buttons = document.querySelectorAll('#alphabet button');
+    buttons.forEach(button => {
+        button.disabled = true;
+    });
+}
+
+function enableAlphabetButtons() {
+    const buttons = document.querySelectorAll('#alphabet button');
+    buttons.forEach(button => {
+        button.disabled = false;
+    });
+}
+
+let cluesLeftDisplay = document.getElementById('cluesLeft');
+let cluesLeftBtnDisplay = document.getElementById('cluesLeftBtn');
 function provideClue() {
     if (cluesLeft > 0) {
         if (score >= 25) {
@@ -185,49 +246,77 @@ function provideClue() {
             document.getElementById('score').textContent = score;
             cluesLeft--;
             document.getElementById('cluesLeft').textContent = cluesLeft;
-            const type = prompt("Choose clues using consonants or vowels (c / v):").toLowerCase();
-            if (type === 'c' || type === 'consonants') {
-                provideConsonantClue();
-            } else if (type === 'v' || type === 'vowels') {
-                provideVowelClue();
-            } else {
-                alert('Invalid input! Please choose either consonants (c) or vowels (v).');
-            }
+            displayClueTypePopup();
         } else {
-            // Miguel, Earl
-            //alert('Not enough points to get a clue!');
-            document.getElementById('noclues').textContent = 'Not enough points to get a clue!';
+            displayPopup('Not enough points!', 'You need at least 25 points to get a clue.');
+        }
+        cluesLeftDisplay.textContent = cluesLeft;
+        cluesLeftBtnDisplay.textContent = cluesLeft;
+        
+        // Disable the button when no clues are left
+        if (cluesLeft === 0) {
+            document.getElementById('clueBtn').disabled = true;
         }
     } else {
-        alert('No clues left!');
+        displayPopup('No clues left!', 'You have used all your clues.');
     }
 }
 
-function provideConsonantClue() { // Miguel,Earl
-    const wordLetters = currentWord.toUpperCase().split('');
-    const consonants = 'BCDFGHJKLMNPQRSTVWXYZ'.split('');
-    const buttons = document.querySelectorAll('#alphabet button');
-    let consonantFound = false; // Variable to track if a consonant has been found 
+// Function to display the pop-up for choosing clue type (consonants or vowels)
+function displayClueTypePopup() {
+    const popup = document.getElementById('clueTypePopup');
+    popup.style.display = 'block';
 
-    buttons.forEach(button => {
-        if (!consonantFound && consonants.includes(button.textContent.toUpperCase()) && wordLetters.includes(button.textContent.toUpperCase())) {
-            button.classList.add('clue-highlight');
-            consonantFound = true; // Set to true once a consonant is found
-        }
+    // Event listener for the consonants button
+    document.getElementById('consonantsButton').addEventListener('click', function() {
+        provideConsonantClue();
+        popup.style.display = 'none';
+    });
+
+    // Event listener for the vowels button
+    document.getElementById('vowelsButton').addEventListener('click', function() {
+        provideVowelClue();
+        popup.style.display = 'none';
     });
 }
 
 
-function provideVowelClue() { // Miguel,Earl
+function provideConsonantClue() {
+    const wordLetters = currentWord.toUpperCase().split('');
+    const consonants = 'BCDFGHJKLMNPQRSTVWXYZ'.split('');
+    const eligibleLetters = wordLetters.filter(letter => consonants.includes(letter));
+    const randomIndex = Math.floor(Math.random() * eligibleLetters.length);
+    const letterToReveal = eligibleLetters[randomIndex];
+    const buttons = document.querySelectorAll('#alphabet button');
+    buttons.forEach(button => {
+        if (button.textContent.toUpperCase() === letterToReveal) {
+            button.classList.add('clue-highlight');
+            revealLetter(letterToReveal);
+        }
+    });
+}
+
+function provideVowelClue() {
     const wordLetters = currentWord.toUpperCase().split('');
     const vowels = 'AEIOU'.split('');
+    const eligibleLetters = wordLetters.filter(letter => vowels.includes(letter));
+    const randomIndex = Math.floor(Math.random() * eligibleLetters.length);
+    const letterToReveal = eligibleLetters[randomIndex];
     const buttons = document.querySelectorAll('#alphabet button');
-    let vowelFound = false; // Variable to track if a vowel has been found
-
     buttons.forEach(button => {
-        if (!vowelFound && vowels.includes(button.textContent.toUpperCase()) && wordLetters.includes(button.textContent.toUpperCase())) {
+        if (button.textContent.toUpperCase() === letterToReveal) {
             button.classList.add('clue-highlight');
-            vowelFound = true; // Set to true once a vowel is found
+            revealLetter(letterToReveal);
+        }
+    });
+}
+
+function revealLetter(letter) {
+    const boxes = document.querySelectorAll('.box');
+    boxes.forEach(box => {
+        if (box.textContent.toUpperCase() === letter) {
+            box.textContent = letter;
+            box.classList.add('correct');
         }
     });
 }
@@ -246,11 +335,49 @@ function resetGame() {
     document.getElementById('gameMode').textContent = 'Easy';
     document.getElementById('score').textContent = score;
     document.getElementById('cluesLeft').textContent = cluesLeft;
-    document.getElementById('incorrectCount').textContent = incorrectGuesses;
+    document.getElementById('hearts').textContent = '❤️❤️❤️';
     displayQuestion();
 }
+
+document.addEventListener("DOMContentLoaded", function() {
+            var rulesPopup = document.getElementById("rulesPopup");
+            var ruleBtn = document.getElementById("ruleBtn");
+            var closeBtn = document.getElementById("closeBtn");
+
+            ruleBtn.addEventListener("click", function() {
+                rulesPopup.style.display = "block";
+            });
+
+            closeBtn.addEventListener("click", function() {
+                rulesPopup.style.display = "none";
+            });
+        });
+		
+		
+function updateGameModeColor() {
+    const gameModeElement = document.getElementById('gameMode');
+    
+    // Remove existing color classes
+    gameModeElement.classList.remove('easy-color', 'medium-color', 'difficult-color');
+    
+    // Add the appropriate color class based on the current game mode
+    if (gameMode === 'easy') {
+        gameModeElement.classList.add('green-color');
+    } else if (gameMode === 'medium') {
+        gameModeElement.classList.add('orange-color');
+    } else if (gameMode === 'difficult') {
+        gameModeElement.classList.add('red-color');
+    }
+}
+
+// Call the function initially to set the initial color
+updateGameModeColor();
 
 document.getElementById('clueBtn').addEventListener('click', provideClue);
 document.getElementById('restartBtn').addEventListener('click', resetGame);
 
 displayQuestion();
+
+
+
+
