@@ -287,6 +287,15 @@ footer {
     border: 2px solid #FFB145;
 }
 
+#menuBtn:hover {
+    transform: translateY(-5px);
+    background-color: #FF9633; /* Darker color on hover */
+    box-shadow: 
+        0px 8px 20px rgba(0, 0, 0, 0.5),
+        0px 15px 25px rgba(0, 0, 0, 0.4),
+        0px 20px 30px rgba(0, 0, 0, 0.3);
+}
+
 #gameMode.green-color {
     color: #00FF00; /* Green */
 }
