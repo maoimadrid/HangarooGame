@@ -79,7 +79,7 @@ function displayQuestion() {
                 questionsAnswered = 0;
             } else {
                 // Handle case where all questions in all difficulty levels have been asked
-                alert('Congratulations! You have completed all difficulty levels.');
+                displayPopUp('Congratulations! You have completed all difficulty levels. Your score is: ' + score);
                 resetGame();
                 return;
             }
@@ -91,7 +91,7 @@ function displayQuestion() {
             document.getElementById('gameMode').textContent = gameMode.charAt(0).toUpperCase() + gameMode.slice(1);
         } else {
             // Handle case where all questions in all difficulty levels have been asked
-            alert('Congratulations! You have completed all difficulty levels.');
+             displayPopUp('Congratulations! You have completed all difficulty levels. Your score is: ' + score);
             resetGame();
             return;
         }
