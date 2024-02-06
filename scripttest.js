@@ -280,49 +280,69 @@ function displayClueTypePopup() {
     });
 }
 
+function displayPopup(title, message) {
+    // Get the popup elements
+    const popupTitle = document.getElementById('popupTitle');
+    const popupMessage = document.getElementById('popupMessage');
+    const popup = document.getElementById('popup1');
+
+    // Set the title and message
+    popupTitle.textContent = title;
+    popupMessage.textContent = message;
+
+    // Display the popup
+    popup.style.display = 'block';
+
+    // Add event listener to close the popup when the close button is clicked
+    const closeButton = document.getElementById('popupCloseButton');
+    closeButton.addEventListener('click', function() {
+        popup.style.display = 'none';
+    });
+}
 
 function provideConsonantClue() {
     const wordLetters = currentWord.toUpperCase().split('');
     const consonants = 'BCDFGHJKLMNPQRSTVWXYZ'.split('');
     const eligibleLetters = wordLetters.filter(letter => consonants.includes(letter));
+    if (eligibleLetters.length === 0) {
+        displayPopup('No Consonants!', 'There are no consonants left in the word.');
+        return;
+    }
     const randomIndex = Math.floor(Math.random() * eligibleLetters.length);
     const letterToReveal = eligibleLetters[randomIndex];
-    const buttons = document.querySelectorAll('#alphabet button');
-    buttons.forEach(button => {
-        if (button.textContent.toUpperCase() === letterToReveal) {
-            button.classList.add('clue-highlight');
-            revealLetter(letterToReveal);
-        }
-    });
+    revealLetter(letterToReveal);
 }
 
 function provideVowelClue() {
     const wordLetters = currentWord.toUpperCase().split('');
     const vowels = 'AEIOU'.split('');
     const eligibleLetters = wordLetters.filter(letter => vowels.includes(letter));
+    if (eligibleLetters.length === 0) {
+        displayPopup('No Vowels!', 'There are no vowels left in the word.');
+        return;
+    }
     const randomIndex = Math.floor(Math.random() * eligibleLetters.length);
     const letterToReveal = eligibleLetters[randomIndex];
-    const buttons = document.querySelectorAll('#alphabet button');
-    buttons.forEach(button => {
-        if (button.textContent.toUpperCase() === letterToReveal) {
-            button.classList.add('clue-highlight');
-            revealLetter(letterToReveal);
-        }
-    });
+    revealLetter(letterToReveal);
 }
 
 function revealLetter(letter) {
     const boxes = document.querySelectorAll('.box');
+    let revealed = false; // Flag to ensure only one letter is revealed
+
+    // Loop through each box element
     boxes.forEach(box => {
-        if (box.textContent.toUpperCase() === letter) {
-            box.textContent = letter;
-            box.classList.add('correct');
+        // Check if the box contains the letter to reveal and is not already revealed
+        if (box.textContent.toUpperCase() === letter && !revealed) {
+            box.textContent = letter; // Reveal the letter
+            box.classList.add('correct'); // Add the 'correct' class to style the revealed letter
+            revealed = true; // Set the flag to true to indicate that a letter has been revealed
         }
     });
 }
 
 function gameOver() {
-    alert('Game Over! Your final score is : ' + score);
+    displayPopup('Game Over! Your final score is : ' + score);
     resetGame();
 }
 
@@ -373,11 +393,12 @@ function updateGameModeColor() {
 // Call the function initially to set the initial color
 updateGameModeColor();
 
+document.getElementById('menuBtn').addEventListener('click', function() {
+    // Goes back to Main Menu
+    window.location.href = 'index.html';
+});
+
 document.getElementById('clueBtn').addEventListener('click', provideClue);
 document.getElementById('restartBtn').addEventListener('click', resetGame);
 
 displayQuestion();
-
-
-
-
